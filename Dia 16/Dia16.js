@@ -1,16 +1,23 @@
 function fixLetter(letter) {
   let letterFirst = letter
     .trim()
+    .replace(/(santa claus)/gi, 'Santa Claus')
+    .replace(/(santa claus)/gi, 'Santa Claus')
+    .replace('santa', 'Santa')
+    .replace('claus', 'Claus')
     .replace('??', '?')
-    .replace('santa claus', 'Santa Claus')
+    .replace(/\s+/g, ' ')
     .replace('  ' , ' ')
+    .replace(/\s+([?,.])/g, '$1')
+    .replace(/([?.,])\s+/g, '$1 ')
     .replace( ' ,' , ',')
     .replace(' .', '.')
+    .replace(/^([A-z])/, (_, p) => p.toUpperCase())
+    .replace(/([?.!])\s+([A-z])/g, (m, p1, p2) => `${p1} ${p2.toUpperCase()}`)
+    .replace(/([A-z])$/, (m, p) => `${p}.`)
     .replace()
-    .replace(/\b([.?!] \w) | (^\w)/g, m => m.toUpperCase())
-    if (letterFirst[0] == " "){
-      letter[0].replace("");
-    }
+
+    console.log(letter.search(/[^a-z]/i))
 
     return letterFirst;
   }
@@ -24,3 +31,5 @@ let test2 = fixLetter("  Hi Santa claus. I'm a girl from Barcelona , Spain . ple
 
 console.log(test1);
 console.log(test2);
+
+
