@@ -33,3 +33,17 @@ console.log(test1);
 console.log(test2);
 
 
+function fixLetter(letter) {
+  const fixed = letter
+    .replace(/\?+/g, "?")
+    .replace(/\!+/g, "!")
+    .replace(/(\s+([,.]))/g,(m, $1, $2) => $2)
+    .replace(/(^|[.!?]+)([a-zA-Z])/g, (m, $1, $2) => `${$1} ${$2}`)
+    .replace(/(^|[.!?]\s+)([a-z])/g, (m, $1, $2) => $1 + $2.toUpperCase())
+    .replace(/\s+/g, " ")
+    .replace(/santa/g, "Santa")
+    .replace(/claus/g, "Claus")
+    .trim()
+    .replace(/(^[a-z])/g, (m, $1) => $1.toUpperCase());
+  return [".", "!", "?"].includes(fixed.at(-1)) ? fixed : fixed + ".";
+}
