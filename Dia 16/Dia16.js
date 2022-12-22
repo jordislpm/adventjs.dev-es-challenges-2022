@@ -1,26 +1,40 @@
 function fixLetter(letter) {
-  let letterFirst = letter
-    .trim()
-    .replace(/(santa claus)/gi, 'Santa Claus')
-    .replace(/(santa claus)/gi, 'Santa Claus')
-    .replace('santa', 'Santa')
-    .replace('claus', 'Claus')
-    .replace('??', '?')
-    .replace(/\s+/g, ' ')
-    .replace('  ' , ' ')
-    .replace(/\s+([?,.])/g, '$1')
-    .replace(/([?.,])\s+/g, '$1 ')
-    .replace( ' ,' , ',')
-    .replace(' .', '.')
-    .replace(/^([A-z])/, (_, p) => p.toUpperCase())
-    .replace(/([?.!])\s+([A-z])/g, (m, p1, p2) => `${p1} ${p2.toUpperCase()}`)
-    .replace(/([A-z])$/, (m, p) => `${p}.`)
-    .replace()
+  letter = letter.split('\n').join('---');  
+  letter = letter.split(' ')
+  .filter(v=>v!='')
+  .reduce((lt,val)=>`${lt} ${val}`,'');
+  letter = letter.split(',')
+  .reduce((lt,val)=>`${lt.trim()}, ${val.trim()}`,'')
+  .substring(1);
+  letter = letter.split('.')
+  .reduce((lt,val)=>
+  `${lt.trim()}. ${val.trim().charAt(0).toUpperCase()}${val.trim().slice(1)}`
+  ,'')
+  .substring(1);
+  const qu = letter.charAt(letter.length-1)=='?'?'?':'';
+  letter = letter.split('?')
+  .filter(v=>v!='')
+  .reduce((lt,val)=>
+  `${lt.trim()}? ${val.trim().charAt(0).toUpperCase()}${val.trim().slice(1)}`
+  ,'')
+  .substring(1)+qu;
+  const ad = letter.charAt(letter.length-1)=='!'?'!':'';
+  letter = letter
+  .split('!')
+  .filter(v=>v!='')
+  .reduce((lt,val)=>
+  `${lt.trim()}! ${val.trim().charAt(0).toUpperCase()}${val.trim().slice(1)}`
+  ,'')
+  .substring(1)+ad;
+  const reg1 = /santa claus/gi  
+  letter = letter.replace(reg1, "Santa Claus").trim();
 
-    console.log(letter.search(/[^a-z]/i))
+  const reg2 = /---/g  
+  letter = letter.replace(reg2, "\n").trim();
 
-    return letterFirst;
-  }
+  return ['?','!','.']
+  .includes(letter.charAt(letter.length-1)) ? letter: `${letter}.`;
+}
 
 
 let test1 =  fixLetter(` hello,  how are you??     do you know if santa claus exists?  i really hope he does!  bye  `)
@@ -31,19 +45,3 @@ let test2 = fixLetter("  Hi Santa claus. I'm a girl from Barcelona , Spain . ple
 
 console.log(test1);
 console.log(test2);
-
-
-function fixLetter(letter) {
-  const fixed = letter
-    .replace(/\?+/g, "?")
-    .replace(/\!+/g, "!")
-    .replace(/(\s+([,.]))/g,(m, $1, $2) => $2)
-    .replace(/(^|[.!?]+)([a-zA-Z])/g, (m, $1, $2) => `${$1} ${$2}`)
-    .replace(/(^|[.!?]\s+)([a-z])/g, (m, $1, $2) => $1 + $2.toUpperCase())
-    .replace(/\s+/g, " ")
-    .replace(/santa/g, "Santa")
-    .replace(/claus/g, "Claus")
-    .trim()
-    .replace(/(^[a-z])/g, (m, $1) => $1.toUpperCase());
-  return [".", "!", "?"].includes(fixed.at(-1)) ? fixed : fixed + ".";
-}
